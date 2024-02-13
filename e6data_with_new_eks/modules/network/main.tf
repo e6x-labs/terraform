@@ -2,11 +2,18 @@ data "aws_vpc" "vpc" {
   id = var.vpc_id
 }
 
-resource "aws_internet_gateway" "ig" {
-  vpc_id = data.aws_vpc.vpc.id
+# resource "aws_internet_gateway" "ig" {
+#   vpc_id = data.aws_vpc.vpc.id
 
-  tags = {
-    Name = "${var.env}-${var.workspace_name}-IG"
+#   tags = {
+#     Name = "${var.env}-${var.workspace_name}-IG"
+#   }
+# }
+
+data "aws_internet_gateway" "ig" {
+  filter {
+    name   = "attachment.vpc-id"
+    values = [var.vpc_id]
   }
 }
 
